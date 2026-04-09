@@ -29,9 +29,13 @@ jobs:
           echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+          google-chrome --version
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run Naukri update
         run: python naukri.py
+        env:
+          DISPLAY: ""
+          CHROME_FLAGS: "--no-sandbox --disable-dev-shm-usage --disable-gpu --headless"
