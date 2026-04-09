@@ -21,6 +21,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 import constants
 
 # Add folder Path of your resume
@@ -37,7 +38,7 @@ mob = constants.MOBILE
 updatePDF = False
 
 # If Headless = True, script runs Chrome in headless mode without visible GUI
-headless = False
+headless = constants.HEADLESS
 
 # ----- No other changes required -----
 
@@ -234,7 +235,8 @@ def LoadNaukri(headless):
     if headless:
         options.add_argument("--headless=new")
 
-    driver = webdriver.Chrome(options=options)
+    service = ChromeService(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
     log_msg("Google Chrome Launched!")
 
     driver.get(NaukriURL)
