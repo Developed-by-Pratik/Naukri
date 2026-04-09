@@ -222,29 +222,23 @@ def randomText():
 
 def LoadNaukri(headless):
     """Open Chrome to load Naukri.com"""
-
     options = webdriver.ChromeOptions()
     options.add_argument("--disable-notifications")
-    options.add_argument("--start-maximized")  # ("--kiosk") for MAC
+    options.add_argument("--start-maximized")
     options.add_argument("--disable-popups")
     options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--remote-debugging-port=9222")
     if headless:
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("headless")
+        options.add_argument("--headless=new")
 
-    # updated to use latest selenium Chrome service
-    driver = None
-    try:
-        driver = webdriver.Chrome(options=options, service=ChromeService())
-    except Exception as e:
-        print(f"Error launching Chrome: {e}")
-        driver = webdriver.Chrome(options)
+    driver = webdriver.Chrome(options=options)
     log_msg("Google Chrome Launched!")
 
-    driver.implicitly_wait(5)
     driver.get(NaukriURL)
     return driver
-
 
 def naukriLogin(headless=False):
     """Open Chrome browser and Login to Naukri.com"""
